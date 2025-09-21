@@ -50,5 +50,3 @@ login_test_with_name(driver)
 login_test_with_xpath(driver)
 
 driver.quit()
-
-
