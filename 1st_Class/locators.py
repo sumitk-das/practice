@@ -43,10 +43,11 @@ def login_test_with_xpath(driver):
     login_btn = driver.find_element(By.XPATH, '//input[@type="submit"]').click()
     time.sleep(3)
 
-##Main
-driver= setup_driver()
-login_test_with_id(driver)
-login_test_with_name(driver)
-login_test_with_xpath(driver)
-
-driver.quit()
+if __name__ == "__main__":
+    driver = setup_driver()
+    try:
+        login_test_with_id(driver)
+        login_test_with_name(driver) 
+        login_test_with_xpath(driver)
+    finally:
+        driver.quit()

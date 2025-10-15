@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.action_chains import ActionChains
 
-def test_setup_driver():
+def setup_driver():
     services = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=services)
     driver .maximize_window()
@@ -47,22 +47,23 @@ def test_setup_driver():
 def button_test(driver):
     driver.get('https://demoqa.com/buttons')
     time.sleep(2)
-    double_click = driver.find_element(By.ID, 'doubleClickBtn').click()
-    ActionChains.double_click(double_click).perform()
-    time.sleep(4)
-    right_click = driver.find_element(By.ID, 'rightClickBtn').click()
-    ActionChains.click(right_click).perform()
+    double_click_btn = driver.find_element(By.ID, 'doubleClickBtn')
+    ActionChains(driver).double_click(double_click_btn).perform()
     time.sleep(2)
-    dynamic_click = driver.find_element(By.ID, 'qkqnk').click()
+    right_click_btn = driver.find_element(By.ID, 'rightClickBtn')
+    ActionChains(driver).context_click(right_click_btn).perform()
+    time.sleep(2)
+    dynamic_click_btn = driver.find_element(By.XPATH, "//button[contains(text(),'Click Me')]")
+    dynamic_click_btn.click()
+    print("✅ Button test completed successfully")
 
 
-##Main
-driver= setup_driver()
-# input_field(driver)
-# radio_button(driver)
-# check_box(driver)
-button_test(driver)
-
-
-
-driver.quit()
+if __name__ == "__main__":
+    driver = setup_driver()
+    try:
+        # input_field(driver)
+        # radio_button(driver)
+        # check_box(driver)
+        button_test(driver)
+    finally:
+        driver.quit()
