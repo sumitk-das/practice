@@ -2,27 +2,28 @@
 
 This project demonstrates automated testing of a web application using Selenium
 WebDriver with Python. The test suite covers various scenarios including login,
-inventory management, checkout process, and order placement.
+inventory management, checkout process, order placement, and cart operations.
 
 ## Project Structure
 
 ```
-selenium/
+selenium_tests/
 ├── pages/                 # Page Object Models
-│   ├── cart_page.py
-│   ├── inventory_page.py
-│   └── login_page.py
-├── tests/                 # Test Cases
-│   ├── conftest.py       # Test Configuration
+│   ├── cart_page.py      # Shopping cart operations
+│   ├── inventory_page.py # Product and inventory management
+│   └── login_page.py     # Authentication handling
+├── tests/                # Test Cases
+│   ├── conftest.py      # Test Configuration
+│   ├── test_cart_navigation.py
 │   ├── test_checkout.py
+│   ├── test_e2e_flow.py # Sequential end-to-end tests
 │   ├── test_inventory.py
 │   ├── test_login.py
 │   ├── test_logout.py
-│   └── test_order.py
-├── utilities/            # Helper Functions
-│   └── web_utils.py
-├── pytest.ini           # PyTest Configuration
-└── reports/            # Test Reports Directory
+│   ├── test_order.py
+│   └── test_remove_products.py
+├── pytest.ini          # PyTest Configuration
+└── reports/           # Test Reports Directory
     └── report.html
 ```
 
@@ -51,10 +52,37 @@ pip install pytest selenium pytest-html webdriver-manager
 
 ## Running Tests
 
+### Sequential End-to-End Testing
+
+Run the complete test flow in sequence:
+
+```bash
+cd selenium_tests
+python -m pytest tests/test_e2e_flow.py -v --html=reports/report.html
+```
+
+The sequential tests run in this order:
+
+1. Login functionality
+2. Add products to cart
+3. Complete order process
+4. Remove products from cart
+5. Cancel order and continue shopping
+6. Logout
+
+You can also run a specific step using markers:
+
+```bash
+python -m pytest -v -m step1_login    # Run only login tests
+python -m pytest -v -m step2_inventory # Run only inventory tests
+```
+
+### Individual Test Execution
+
 1. Run all tests with HTML report:
 
 ```bash
-cd selenium
+cd selenium_tests
 python -m pytest tests/ -v --html=reports/report.html
 ```
 
@@ -64,21 +92,31 @@ python -m pytest tests/ -v --html=reports/report.html
 python -m pytest tests/test_login.py -v
 ```
 
-3. Run tests with specific marker:
+## Test Scenarios
 
-```bash
-python -m pytest -v -m smoke  # Run smoke tests only
-```
+The test suite includes comprehensive testing of:
 
-## Test Cases
+1. Authentication
 
-The test suite includes the following scenarios:
+   - Valid and invalid login attempts
+   - Logout functionality
 
-- Login functionality (valid and invalid credentials)
-- Adding products to cart
-- Checkout process
-- Order completion
-- Logout functionality
+2. Shopping Cart Operations
+
+   - Adding products to cart
+   - Removing products from cart
+   - Cart navigation (continue shopping, cancel)
+
+3. Checkout Process
+
+   - Complete order placement
+   - Order cancellation
+   - Information validation
+
+4. End-to-End Workflows
+   - Sequential test flow from login to logout
+   - Multiple product handling
+   - Order completion and cancellation
 
 ## Reports
 
@@ -88,15 +126,43 @@ After test execution, you can find the HTML test report at:
 selenium/reports/report.html
 ```
 
-## Page Objects
+## Page Object Model
 
-The project follows the Page Object Model design pattern:
+The project follows the Page Object Model (POM) design pattern for better
+maintainability:
 
-- `LoginPage`: Handles login-related actions and validations
-- `InventoryPage`: Manages product listing and cart operations
-- `CartPage`: Handles shopping cart functionality
+### `LoginPage`
 
-## Utilities
+- Authentication handling
+- Login status validation
+- Navigation to login page
+
+### `InventoryPage`
+
+- Product management
+- Add/remove products from cart
+- Menu navigation
+- Logout functionality
+
+### `CartPage`
+
+- Shopping cart operations
+- Checkout process
+- Order completion
+- Continue shopping functionality
+
+## Test Organization
+
+1. **Independent Test Files**
+
+   - Separate test files for each functionality
+   - Modular and maintainable test structure
+   - Easy to run specific test categories
+
+2. **Sequential Testing**
+   - `test_e2e_flow.py` for ordered test execution
+   - Step-by-step validation of complete user journey
+   - Clearly marked test sequence
 
 - `web_utils.py`: Contains common web automation utilities and helper functions
 
