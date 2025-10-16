@@ -10,6 +10,8 @@ class CartPage:
     CONTINUE_BUTTON = (By.ID, "continue")
     FINISH_BUTTON = (By.ID, "finish")
     BACK_TO_PRODUCTS = (By.ID, "back-to-products")
+    CANCEL_BUTTON = (By.ID, "cancel")
+    CONTINUE_SHOPPING = (By.ID, "continue-shopping")
 
     def __init__(self, driver):
         self.driver = driver
@@ -30,3 +32,15 @@ class CartPage:
         time.sleep(1)
         self.driver.find_element(*self.BACK_TO_PRODUCTS).click()
         time.sleep(1)
+
+    def cancel_checkout(self):
+        """Cancel the checkout process"""
+        self.driver.find_element(*self.CANCEL_BUTTON).click()
+        time.sleep(1)
+        print("Cancelled checkout")
+
+    def continue_shopping(self):
+        """Return to shopping from cart"""
+        self.driver.find_element(*self.CONTINUE_SHOPPING).click()
+        time.sleep(1)
+        print("Continued shopping")

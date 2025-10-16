@@ -7,10 +7,16 @@ class InventoryPage:
         # Product Locators
         self.product1 = (By.ID, "add-to-cart-sauce-labs-bolt-t-shirt")
         self.product2 = (By.ID, "add-to-cart-sauce-labs-fleece-jacket")
+        # Remove Product Locators
+        self.rmpro1 = (By.ID, "remove-sauce-labs-bolt-t-shirt")
+        self.rmpro2 = (By.ID, "remove-sauce-labs-fleece-jacket")
         # Cart and Menu Locators
         self.shopping_cart = (By.ID, "shopping_cart_container")
         self.burger_menu = (By.ID, "react-burger-menu-btn")
         self.logout_link = (By.ID, "logout_sidebar_link")
+        # Navigation Buttons
+        self.cancelbtn = (By.ID, "cancel")
+        self.continueshoppingbtn = (By.ID, "continue-shopping")
 
     def add_product1_to_cart(self):
         """Add the Sauce Labs Bolt T-Shirt to cart"""
@@ -35,6 +41,20 @@ class InventoryPage:
             self.driver.find_element(By.ID, product_id).click()
             time.sleep(1)
             print(f"Added product {product_id} to cart")
+
+    def remove_product1_from_cart(self):
+        """Remove the Sauce Labs Bolt T-Shirt from cart"""
+        self.driver.find_element(*self.rmpro1).click()
+        time.sleep(1)
+        print("Removed Sauce Labs Bolt T-Shirt from cart")
+
+    def remove_product2_from_cart(self):
+        """Remove the Sauce Labs Fleece Jacket from cart"""
+        self.driver.find_element(*self.rmpro2).click()
+        time.sleep(1)
+        print("Removed Sauce Labs Fleece Jacket from cart")
+
+
 
     def logout(self):
         """Logout from the application"""
